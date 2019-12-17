@@ -29,6 +29,7 @@ module.exports = function(RED) {
 	}
 
 	function readImage(node, url) {
+		node.trace("readImage:", url);
 		Jimp.read(url)
 			.then(function(image) {
 				// Do stuff with the image.
