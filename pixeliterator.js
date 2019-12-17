@@ -15,12 +15,6 @@ module.exports = function(RED) {
 		var node = this;
 		node.pollInterval = n.pollinterval;
 
-		node.instagramConfig = RED.nodes.getNode(n.instagram);
-		if (!node.instagramConfig) {
-			node.warn(RED._("instagram.warn.missing-credentials"));
-			return;
-		}
-
 		node.on("input", function(msg) {
 			// process incoming data; allows either string url, or Buffer containing raw image data (KIV)
 
