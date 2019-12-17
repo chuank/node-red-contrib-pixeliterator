@@ -38,7 +38,20 @@ module.exports = function(RED) {
 
 		Jimp.read(url)
 			.then(function(image) {
-				node.debug("image loaded", image);
+				image.resize(50,50);
+
+				var pixelArray = [];
+				for(var y=0;y<50;y++) {
+					for(var x=0;x<50;x++) {
+						pixelArray.push(image.getPixelColor(x, y));
+					}
+				}
+
+				node.debug("image loaded", pixelArray);
+
+				node.msg.payload = pixelArray;
+				node.send(node.msg);
+
 			})
 			.catch(function(err) {
 				node.error(err);
