@@ -1,0 +1,25 @@
+{
+    "name"          : "node-red-contrib-pixeliterator",
+    "version"       : "0.1.0",
+    "description"   : "Pixel Iterator",
+    "dependencies"  : {
+        "request":"~2.74.0",
+        "jimp":"^0.9.3"
+    },
+    "repository" : {
+        "type":"git",
+        "url":"https://github.com/chuank/node-red-contrib-pixeliterator"
+    },
+    "license": "MIT",
+    "keywords": [ "node-red", "pixel", "iterator" ],
+    "node-red"      : {
+        "nodes"     : {
+            "pixeliterator" : "pixeliterator.js"
+        }
+    },
+    "author": {
+        "name": "Chuan Khoo",
+        "email": "khoo.chuan@gmail.com",
+        "url": "https://chuank.com"
+    }
+}

@@ -1,0 +1,40 @@
+<!--
+ node-red-contrib-pixeliterator
+ Copyright 2019 Chuan Khoo.
+ www.chuank.com
+-->
+<script type="text/x-red" data-template-name="pixeliterator">
+    <div class="form-row">
+        <label for="pixeliterator-input-url"><i class="fa fa-link"></i> <span data-i18n="pixeliterator.label.url"></span></label>
+        <input type="text" id="pixeliterator-input-url">
+    </div>
+    <div class="form-row">
+        <label for="pixeliterator-input-name"><i class="fa fa-tag"></i> <span data-i18n="pixeliterator.label.name"></span></label>
+        <input type="text" id="pixeliterator-input-name" data-i18n="[placeholder]pixeliterator.placeholder.name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="pixeliterator">
+    <p>Iterates over each pixel in an image.</p>
+    <p>Also provides option to scale incoming image.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType("pixeliterator",{
+    	category: "image",
+    	defaults: {
+    		url: { type:"text" },
+    		name: { value:"" }
+    	},
+    	color:"#6a6054",
+    	inputs:1,
+    	outputs:1,
+    	icon: "dataheirlooms.png",
+    	label: function() {
+    		return this.name || this._("pixeliterator.label.pixeliterator");
+    	},
+    	labelStyle: function() {
+    		return this.name ? "node_label_italic":"";
+    	}
+    });
+</script>
