@@ -19,8 +19,6 @@ module.exports = function(RED) {
 			// process incoming data; allows either string url, or Buffer containing raw image data (KIV)
 			// v0.1.0: doing just string URL for now
 
-			node.debug("readImage:");
-			node.debug(msg.payload);
 			readImage(node, msg.payload);
 
 			if(done) {
@@ -35,11 +33,12 @@ module.exports = function(RED) {
 	}
 
 	function readImage(node, url) {
+		node.debug("jimp image:");
+		node.debug(url);
+
 		Jimp.read(url)
 			.then(function(image) {
-				// Do stuff with the image.
-				node.debug("jimp image:");
-				node.debug(image.width, ",", image.height);
+				node.debug("image loaded", image);
 			})
 			.catch(function(err) {
 				node.error(err);
