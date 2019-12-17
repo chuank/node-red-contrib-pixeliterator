@@ -20,7 +20,7 @@ module.exports = function(RED) {
 			// v0.1.0: doing just string URL for now
 
 			node.debug("readImage:");
-			node.debug(msg);
+			node.debug(msg.payload);
 			readImage(node, msg.payload);
 
 			if(done) {
