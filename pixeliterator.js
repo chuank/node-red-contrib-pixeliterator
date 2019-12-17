@@ -13,14 +13,19 @@ module.exports = function(RED) {
 		RED.nodes.createNode(this,n);
 
 		var node = this;
-		node.pollInterval = n.pollinterval;
+		node.url = n.url;
 
-		node.on("input", function(msg) {
+		node.on("input", function(msg, send, done) {
 			// process incoming data; allows either string url, or Buffer containing raw image data (KIV)
-
 			// v0.1.0: doing just string URL for now
-			node.debug("readImage:", msg);
+
+			node.debug("readImage:");
+			node.debug(msg);
 			readImage(node, msg.payload);
+
+			if(done) {
+				done();
+			}
 		});
 
 		node.on("close", function() {		// tidy up!
