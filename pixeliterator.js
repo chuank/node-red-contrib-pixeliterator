@@ -14,6 +14,7 @@ module.exports = function(RED) {
 
 		var node = this;
 		node.url = n.url;
+		node.pixelArray = [];
 
 		node.on("input", function(msg, send, done) {
 			// process incoming data; allows either string url, or Buffer containing raw image data (KIV)
@@ -40,16 +41,15 @@ module.exports = function(RED) {
 			.then(function(image) {
 				image.resize(50,50);
 
-				var pixelArray = [];
+				node.pixelArray = [];
 				for(var y=0;y<50;y++) {
 					for(var x=0;x<50;x++) {
-						pixelArray.push(image.getPixelColor(x, y));
+						node.pixelArray.push(image.getPixelColor(x, y));
 					}
 				}
 
-				node.debug("image loaded", pixelArray);
-
-				node.msg.payload = pixelArray;
+				node.msg = {};
+				node.msg.payload = node.pixelArray;
 				node.send(node.msg);
 
 			})
