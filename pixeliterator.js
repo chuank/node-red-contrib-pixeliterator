@@ -28,7 +28,7 @@ module.exports = function(RED) {
 		});
 
 		node.on("close", function() {		// tidy up!
-			// clearInterval(node.refreshTokenIntervalID);			//long-lived token refresh (15min)
+			// clearInterval(node.refreshTokenIntervalID);
 			// delete node.refreshTokenIntervalID;
 		});
 	}
@@ -44,19 +44,17 @@ module.exports = function(RED) {
 				node.pixelArray = [];
 				for(var y=0;y<50;y++) {
 					for(var x=0;x<50;x++) {
-						node.pixelArray.push(image.getPixelColor(x, y).toString(16));
+						node.pixelArray.push(image.getPixelColor(x, y));
 					}
 				}
 
 				node.msg = {};
 				node.msg.payload = node.pixelArray;
 				node.send(node.msg);
-
 			})
 			.catch(function(err) {
 				node.error(err);
 			});
 	}
-
 	RED.nodes.registerType("pixeliterator", PixelIteratorNode);
 };
