@@ -44,7 +44,7 @@ module.exports = function(RED) {
 				node.pixelArray = [];
 				for(var y=0;y<50;y++) {
 					for(var x=0;x<50;x++) {
-						node.pixelArray.push(image.getPixelColor(x, y));
+						node.pixelArray.push(image.getPixelColor(x, y).toString(16));
 					}
 				}
 
