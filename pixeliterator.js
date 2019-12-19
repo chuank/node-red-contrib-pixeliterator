@@ -34,16 +34,15 @@ module.exports = function(RED) {
 	}
 
 	function readImage(node, url) {
-		node.debug("jimp image:");
-		node.debug(url);
+		node.debug("jimp image:", url);
 
 		Jimp.read(url)
 			.then(function(image) {
-				image.resize(50,50);
+				image.resize(18,18,Jimp.RESIZE_BEZIER);
 
 				node.pixelArray = [];
-				for(var y=0;y<50;y++) {
-					for(var x=0;x<50;x++) {
+				for(var y=0;y<18;y++) {
+					for(var x=0;x<18;x++) {
 						node.pixelArray.push(image.getPixelColor(x, y));
 					}
 				}
