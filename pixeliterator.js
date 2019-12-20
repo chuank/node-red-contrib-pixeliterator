@@ -48,13 +48,13 @@ module.exports = function(RED) {
 
 						// getPixelColor returns RGBA unsigned int (i.e. 0xFFFFFFFF)
 						// depending on user choice, convert or truncate alpha channel
-						var pixCol = image.getPixelColor(x, y);
+						let pixCol = image.getPixelColor(x, y);
 
 						// convert to HSV?
 						if(node.format==="hsv" || node.format==="hsva") {
-							let r = (pixCol >> 24) & 0xff;
-							let g = (pixCol >> 16) & 0xff;
-							let b = (pixCol >> 8) & 0xff;
+							let r = pixCol >>> 24;
+							let g = (pixCol >>> 16) & 0xff;
+							let b = (pixCol >>> 8) & 0xff;
 							let a = pixCol & 0xff;
 							let colConv = rgbToHsv(r,g,b);
 
@@ -62,7 +62,7 @@ module.exports = function(RED) {
 							if(node.format==="hsva") pixCol = (pixCol << 8) + a;
 						}
 
-						// if(node.format==="rgb" || node.format==="hsv") pixCol = (pixCol >> 8);
+						if(node.format==="rgb" || node.format==="hsv") pixCol = (pixCol >>> 8);
 
 						node.pixelArray.push(pixCol);
 					}
