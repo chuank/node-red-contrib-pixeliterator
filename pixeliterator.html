@@ -53,7 +53,6 @@
     		return this.name ? "node_label_italic":"";
 		},
 		oneditprepare: function () {
-			console.log(this.format);
             $("#node-input-format-select").val(this.format);
 
             $("#node-input-format-select").change(function () {
@@ -63,6 +62,9 @@
 
             // call change to refresh on initial prepare
             $("#node-input-format-select").change();
+		},
+		oneditsave: function () {
+			console.log($("#node-input-format").val());
 		}
 
     });
