@@ -62,7 +62,7 @@ module.exports = function(RED) {
 							if(node.format==="hsva") pixCol = (pixCol << 8) + a;
 						}
 
-						if(node.format==="rgb" || node.format==="hsv") pixCol = pixCol >> 8;
+						if(node.format==="rgb" || node.format==="hsv") pixCol = (pixCol >> 8);
 
 						node.pixelArray.push(pixCol);
 					}
@@ -87,9 +87,16 @@ module.exports = function(RED) {
 		else if (max === r) h = (g - b) / d % 6;
 		else if (max === g) h = (b - r) / d + 2;
 		else if (max === b) h = (r - g) / d + 4;
+		h *= 60;
 		let l = (min + max) / 2;
 		let s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
-		return [h * 60, s, l];
+
+		// h is expressed in 0-360º; convert to 0-255
+		// s & l are normalised; convert back to 0-255
+		h = Math.round((h/360) * 255);
+		s = Math.round(s*255);
+		l = Math.round(l*255);
+		return [h, s, l];
 	}
 
 	RED.nodes.registerType("pixeliterator", PixelIteratorNode);
