@@ -55,18 +55,19 @@ module.exports = function(RED) {
 
 						// convert to HSV?
 						if(node.format==="hsv" || node.format==="hsva") {
+							// these are correct
 							let r = pixCol >>> 24;
 							let g = (pixCol >>> 16) & 0xff;
 							let b = (pixCol >>> 8) & 0xff;
 							let a = pixCol & 0xff;
 
-							node.pixelArray.hsv.push([r,g,b]);
+							let hsvConv = rgbToHsv(r,g,b);
+							let hsvCol = (hsvConv[0] << 16) + (hsvConv[1] << 8) + hsvConv[2];
 
-							let colConv = rgbToHsv(r,g,b);
-							let hsvCol = (colConv[0] << 16) + (colConv[1] << 8) + colConv[2];
+							node.pixelArray.hsv.push(hsvCol);
 							
-							let hsvaCol = (hsvCol << 8) + a;
-							node.pixelArray.hsva.push(hsvaCol);
+							// let hsvaCol = (hsvCol << 8) + a;
+							// node.pixelArray.hsva.push(hsvaCol);
 							// if(node.format==="hsva") hsvCol = 
 						}
 
@@ -98,11 +99,11 @@ module.exports = function(RED) {
 		let l = (min + max) / 2;
 		let s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
 
-		// h is expressed in 0-360º; convert to 0-255
+		// h is expressed in 0-360°; convert to 0-255
 		// s & l are normalised; convert back to 0-255
 		h = Math.round((h/360) * 255);
-		s = Math.round(s*255);
-		l = Math.round(l*255);
+		s = Math.round(s * 255);
+		l = Math.round(l * 255);
 		return [h, s, l];
 	}
 
