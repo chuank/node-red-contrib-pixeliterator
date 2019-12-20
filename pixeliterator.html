@@ -16,7 +16,7 @@
 			<option value="hsv">24-bit HSV integer</option>
 			<option value="hsva">32-bit HSVA integer</option>
 		</select>
-		<input type="hidden" id="pixeliterator-input-format">
+		<input type="hidden" id="node-input-format">
     </div>
     <div class="form-row">
 		<label for="node-input-outputsize"><i class="fa fa-th"></i> <span data-i18n="pixeliterator.label.outputsize"></span></label>
@@ -62,9 +62,6 @@
 
             // call change to refresh on initial prepare
             $("#node-input-format-select").change();
-		},
-		oneditsave: function () {
-			console.log($("#node-input-format").val());
 		}
 
     });
