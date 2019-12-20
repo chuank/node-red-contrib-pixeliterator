@@ -62,7 +62,7 @@ module.exports = function(RED) {
 							if(node.format==="hsva") pixCol = (pixCol << 8) + a;
 						}
 
-						if(node.format==="rgb" || node.format==="hsv") pixCol = (pixCol >> 8);
+						// if(node.format==="rgb" || node.format==="hsv") pixCol = (pixCol >> 8);
 
 						node.pixelArray.push(pixCol);
 					}
