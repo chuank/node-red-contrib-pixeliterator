@@ -40,7 +40,7 @@ module.exports = function(RED) {
 
 		Jimp.read(url)
 			.then(function(image) {
-				image.resize(node.outputsize,node.outputsize,Jimp.RESIZE_BEZIER);
+				image.resize(Number(node.outputsize), Number(node.outputsize), Jimp.RESIZE_BEZIER);
 
 				node.pixelArray = [];
 				for(var y=0;y<node.outputsize;y++) {

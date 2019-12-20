@@ -2,14 +2,15 @@
     "pixeliterator": {
         "label": {
             "pixeliterator": "pixeliterator",
-            "url": "image URL",
-            "format": "output format",
-            "outputsize": "scaled output size (px)",
+            "url": "Image URL",
+            "format": "Output array",
+            "outputsize": "Scaled output size (px)",
             "name": "Name"
         },
         "placeholder": {
             "name": "Name",
-            "url": "msg.payload"
+            "url": "msg.payload",
+            "outputsize": "0 = don't resize"
         },
         "tip": {
             "redirect": "<p>Please configure Instagram to accept the following <b>Redirect URL</b> for authentication of your application: </p>\n<code>__constructedURI__</code>"
