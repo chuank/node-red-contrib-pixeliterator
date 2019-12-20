@@ -60,9 +60,10 @@ module.exports = function(RED) {
 							let b = (pixCol >>> 8) & 0xff;
 							let a = pixCol & 0xff;
 
+							node.pixelArray.hsv.push([r,g,b]);
+
 							let colConv = rgbToHsv(r,g,b);
 							let hsvCol = (colConv[0] << 16) + (colConv[1] << 8) + colConv[2];
-							node.pixelArray.hsv.push(hsvCol);
 							
 							let hsvaCol = (hsvCol << 8) + a;
 							node.pixelArray.hsva.push(hsvaCol);
