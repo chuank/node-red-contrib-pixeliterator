@@ -56,7 +56,10 @@
             $("#pixeliterator-input-format-select").val(this.format);
 
             $("#pixeliterator-input-format-select").change(function () {
-                let f = $("#pixeliterator-input-format-select").val();
+				let f = $("#pixeliterator-input-format-select").val();
+				
+				console.log(f);
+
                 $("#pixeliterator-input-format").val(f);
             });
 
