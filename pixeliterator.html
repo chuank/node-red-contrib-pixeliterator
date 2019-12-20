@@ -5,26 +5,26 @@
 -->
 <script type="text/x-red" data-template-name="pixeliterator">
     <div class="form-row">
-        <label for="pixeliterator-url"><i class="fa fa-link"></i> <span data-i18n="pixeliterator.label.url"></span></label>
-        <input type="text" id="pixeliterator-url" data-i18n="[placeholder]pixeliterator.placeholder.url">
+        <label for="pixeliterator-input-url"><i class="fa fa-link"></i> <span data-i18n="pixeliterator.label.url"></span></label>
+        <input type="text" id="pixeliterator-input-url" data-i18n="[placeholder]pixeliterator.placeholder.url">
     </div>
     <div class="form-row">
-		<label for="pixeliterator-format"><i class="fa fa-filter"></i> <span data-i18n="pixeliterator.label.format"></span></label>
-		<select id="pixeliterator-format-select">
+		<label for="pixeliterator-input-format"><i class="fa fa-filter"></i> <span data-i18n="pixeliterator.label.format"></span></label>
+		<select id="pixeliterator-input-format-select">
 			<option value="rgb">24-bit RGB integer</option>
 			<option value="rgba">32-bit RGBA integer</option>
 			<option value="hsv">24-bit HSV integer</option>
 			<option value="hsva">32-bit HSVA integer</option>
 		</select>
-		<input type="hidden" id="pixeliterator-format">
+		<input type="hidden" id="pixeliterator-input-format">
     </div>
     <div class="form-row">
-		<label for="pixeliterator-outputsize"><i class="fa fa-th"></i> <span data-i18n="pixeliterator.label.outputsize"></span></label>
-		<input type="number" id="pixeliterator-outputsize" min="1" style="width=25%;">
+		<label for="pixeliterator-input-outputsize"><i class="fa fa-th"></i> <span data-i18n="pixeliterator.label.outputsize"></span></label>
+		<input type="number" id="pixeliterator-input-outputsize" min="1" style="width=25%;">
     </div>
     <div class="form-row">
-        <label for="pixeliterator-name"><i class="fa fa-tag"></i> <span data-i18n="pixeliterator.label.name"></span></label>
-        <input type="text" id="pixeliterator-name" data-i18n="[placeholder]pixeliterator.placeholder.name">
+        <label for="pixeliterator-input-name"><i class="fa fa-tag"></i> <span data-i18n="pixeliterator.label.name"></span></label>
+        <input type="text" id="pixeliterator-input-name" data-i18n="[placeholder]pixeliterator.placeholder.name">
     </div>
 </script>
 
@@ -53,15 +53,15 @@
     		return this.name ? "node_label_italic":"";
 		},
 		oneditprepare: function () {
-            $("#pixeliterator-format-select").val(this.format);
+            $("#pixeliterator-input-format-select").val(this.format);
 
-            $("#pixeliterator-format-select").change(function () {
-                let f = $("#pixeliterator-format-select").val();
-                $("#pixeliterator-format").val(f);
+            $("#pixeliterator-input-format-select").change(function () {
+                let f = $("#pixeliterator-input-format-select").val();
+                $("#pixeliterator-input-format").val(f);
             });
 
             // call change to refresh on initial prepare
-            $("#pixeliterator-format-select").change();
+            $("#pixeliterator-input-format-select").change();
         }
     });
 </script>
