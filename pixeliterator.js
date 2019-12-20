@@ -40,15 +40,18 @@ module.exports = function(RED) {
 
 		Jimp.read(url)
 			.then(function(image) {
-				image.resize(Number(node.outputsize), Number(node.outputsize), Jimp.RESIZE_BEZIER);
+				if(Number(node.outputsize)!==0) {
+					image.resize(Number(node.outputsize), Number(node.outputsize), Jimp.RESIZE_BEZIER);
+				}
 
-				node.pixelArray = [];
+				node.pixelArray = { raw: [],
+									hsv: [],
+									hsva: []
+								  };
 				for(var y=0;y<node.outputsize;y++) {
 					for(var x=0;x<node.outputsize;x++) {
-
-						// getPixelColor returns RGBA unsigned int (i.e. 0xFFFFFFFF)
-						// depending on user choice, convert or truncate alpha channel
-						let pixCol = image.getPixelColor(x, y);
+						let pixCol = image.getPixelColor(x, y);		// returns RGBA unsigned int (i.e. 0xFFFFFFFF)
+						node.pixelArray.raw.push(pixCol);
 
 						// convert to HSV?
 						if(node.format==="hsv" || node.format==="hsva") {
@@ -56,15 +59,18 @@ module.exports = function(RED) {
 							let g = (pixCol >>> 16) & 0xff;
 							let b = (pixCol >>> 8) & 0xff;
 							let a = pixCol & 0xff;
-							let colConv = rgbToHsv(r,g,b);
 
-							pixCol = (colConv[0] << 16) + (colConv[1] << 8) + colConv[2];
-							if(node.format==="hsva") pixCol = (pixCol << 8) + a;
+							let colConv = rgbToHsv(r,g,b);
+							let hsvCol = (colConv[0] << 16) + (colConv[1] << 8) + colConv[2];
+							node.pixelArray.hsv.push(hsvCol);
+							
+							let hsvaCol = (hsvCol << 8) + a;
+							node.pixelArray.hsva.push(hsvaCol);
+							// if(node.format==="hsva") hsvCol = 
 						}
 
-						if(node.format==="rgb" || node.format==="hsv") pixCol = (pixCol >>> 8);
+						// if(node.format==="rgb" || node.format==="hsv") pixCol = (pixCol >>> 8);
 
-						node.pixelArray.push(pixCol);
 					}
 				}
 
