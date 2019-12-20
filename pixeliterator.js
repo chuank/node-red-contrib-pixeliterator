@@ -65,9 +65,9 @@ module.exports = function(RED) {
 							let hsvCol = (hsvConv[0] << 16) + (hsvConv[1] << 8) + hsvConv[2];
 
 							let hsvaCol = (hsvCol << 8) + a;
-							node.pixelArray.hsv.push(hsvaCol);
+							node.pixelArray.hsv.push(hsvCol);
+							node.pixelArray.hsva.push(hsvaCol);
 							
-							// node.pixelArray.hsva.push(hsvaCol);
 							// if(node.format==="hsva") hsvCol = 
 						}
 
