@@ -5,12 +5,25 @@
 -->
 <script type="text/x-red" data-template-name="pixeliterator">
     <div class="form-row">
-        <label for="pixeliterator-input-url"><i class="fa fa-link"></i> <span data-i18n="pixeliterator.label.url"></span></label>
-        <input type="text" id="pixeliterator-input-url">
+        <label for="pixeliterator-url"><i class="fa fa-link"></i> <span data-i18n="pixeliterator.label.url"></span></label>
+        <input type="text" id="pixeliterator-url">
     </div>
     <div class="form-row">
-        <label for="pixeliterator-input-name"><i class="fa fa-tag"></i> <span data-i18n="pixeliterator.label.name"></span></label>
-        <input type="text" id="pixeliterator-input-name" data-i18n="[placeholder]pixeliterator.placeholder.name">
+		<label for="pixeliterator-format"><i class="fa fa-grid"></i> <span data-i18n="pixeliterator.label.format"></span></label>
+		<select id="pixeliterator-format-select">
+			<option value="rgb">24-bit RGB integer</option>
+			<option value="rgba">32-bit RGBA integer</option>
+			<option value="hsv">24-bit HSV integer</option>
+			<option value="hsva">32-bit HSVA integer</option>
+		</select>
+    </div>
+    <div class="form-row">
+		<label for="pixeliterator-outputsize"><i class="fa fa-grid"></i> <span data-i18n="pixeliterator.label.outputsize"></span></label>
+		<input type="number" id="pixeliterator-outputsize" min="1">
+    </div>
+    <div class="form-row">
+        <label for="pixeliterator-name"><i class="fa fa-tag"></i> <span data-i18n="pixeliterator.label.name"></span></label>
+        <input type="text" id="pixeliterator-name" data-i18n="[placeholder]pixeliterator.placeholder.name">
     </div>
 </script>
 
@@ -23,7 +36,8 @@
     RED.nodes.registerType("pixeliterator",{
     	category: "image",
     	defaults: {
-    		url: { type:"text" },
+			url: { type:"text" },
+			outputsize: { value:18 },
     		name: { value:"" }
     	},
     	color:"#6a6054",

@@ -14,6 +14,8 @@ module.exports = function(RED) {
 
 		var node = this;
 		node.url = n.url;
+		node.format = n.format;
+		node.outputsize = n.outputsize;
 		node.pixelArray = [];
 
 		node.on("input", function(msg, send, done) {
@@ -38,12 +40,31 @@ module.exports = function(RED) {
 
 		Jimp.read(url)
 			.then(function(image) {
-				image.resize(18,18,Jimp.RESIZE_BEZIER);
+				image.resize(node.outputsize,node.outputsize,Jimp.RESIZE_BEZIER);
 
 				node.pixelArray = [];
-				for(var y=0;y<18;y++) {
-					for(var x=0;x<18;x++) {
-						node.pixelArray.push(image.getPixelColor(x, y));
+				for(var y=0;y<node.outputsize;y++) {
+					for(var x=0;x<node.outputsize;x++) {
+
+						// getPixelColor returns RGBA unsigned int (i.e. 0xFFFFFFFF)
+						// depending on user choice, convert or truncate alpha channel
+						var pixCol = image.getPixelColor(x, y);
+
+						// convert to HSV?
+						if(node.format==="hsv" || node.format==="hsva") {
+							let r = (pixCol >> 24) & 0xff;
+							let g = (pixCol >> 16) & 0xff;
+							let b = (pixCol >> 8) & 0xff;
+							let a = pixCol & 0xff;
+							let colConv = rgbToHsv(r,g,b);
+
+							pixCol = (colConv[0] << 16) + (colConv[1] << 8) + colConv[2];
+							if(node.format==="hsva") pixCol = (pixCol << 8) + a;
+						}
+
+						if(node.format==="rgb" || node.format==="hsv") pixCol = pixCol >> 8;
+
+						node.pixelArray.push(pixCol);
 					}
 				}
 
@@ -55,5 +76,21 @@ module.exports = function(RED) {
 				node.error(err);
 			});
 	}
+
+	function rgbToHsv(r, g, b) {
+		r /= 255; g /= 255; b /= 255;
+		let max = Math.max(r, g, b);
+		let min = Math.min(r, g, b);
+		let d = max - min;
+		let h;
+		if (d === 0) h = 0;
+		else if (max === r) h = (g - b) / d % 6;
+		else if (max === g) h = (b - r) / d + 2;
+		else if (max === b) h = (r - g) / d + 4;
+		let l = (min + max) / 2;
+		let s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+		return [h * 60, s, l];
+	}
+
 	RED.nodes.registerType("pixeliterator", PixelIteratorNode);
 };

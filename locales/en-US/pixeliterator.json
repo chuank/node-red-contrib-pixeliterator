@@ -3,7 +3,9 @@
         "label": {
             "pixeliterator": "pixeliterator",
             "url": "image URL",
-            "name": "Name",
+            "format": "output format",
+            "outputsize": "scaled output size (px)",
+            "name": "Name"
         },
         "placeholder": {
             "name": "Name"
