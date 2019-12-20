@@ -44,17 +44,16 @@ module.exports = function(RED) {
 					image.resize(Number(node.outputsize), Number(node.outputsize), Jimp.RESIZE_BEZIER);
 				}
 
-				node.pixelArray = { raw: [],
-									hsv: [],
-									hsva: []
-								  };
+				node.pixelArray = [];
 				for(var y=0;y<node.outputsize;y++) {
 					for(var x=0;x<node.outputsize;x++) {
 						let pixCol = image.getPixelColor(x, y);		// returns RGBA unsigned int (i.e. 0xFFFFFFFF)
-						node.pixelArray.raw.push(pixCol);
 
 						// convert to HSV?
-						if(node.format==="hsv" || node.format==="hsva") {
+						if(node.format==="rgb") {
+							pixCol = (pixCol >>> 8);
+							node.pixelArray.push(pixCol);
+						} else if(node.format==="hsv" || node.format==="hsva") {
 							// these are correct
 							let r = pixCol >>> 24;
 							let g = (pixCol >>> 16) & 0xff;
@@ -62,17 +61,17 @@ module.exports = function(RED) {
 							let a = pixCol & 0xff;
 
 							let hsvConv = rgbToHsv(r,g,b);
-							let hsvCol = ((hsvConv[0] << 16) + (hsvConv[1] << 8) + hsvConv[2]) >>> 0;
+							let hsvCol = ((hsvConv[0] << 16) + (hsvConv[1] << 8) + hsvConv[2]) >>> 0;		// we are working with unsigned 32-bit so >>> 0 is necessary to flip any signed MSB
 
-							let hsvaCol = ((hsvCol << 8) + a) >>> 0;
-							node.pixelArray.hsv.push(hsvCol);
-							node.pixelArray.hsva.push(hsvaCol);
-
-							// if(node.format==="hsva") hsvCol = 
+							if(node.format==="hsv") {
+								node.pixelArray.push(hsvCol);
+							} else {
+								let hsvaCol = ((hsvCol << 8) + a) >>> 0;
+								node.pixelArray.push(hsvaCol);
+							}
+						} else {	// === rgba
+							node.pixelArray.push(pixCol);
 						}
-
-						// if(node.format==="rgb" || node.format==="hsv") pixCol = (pixCol >>> 8);
-
 					}
 				}
 
